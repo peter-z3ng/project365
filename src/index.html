@@ -18,7 +18,15 @@
     <button id="googleLogin">Sign in with Google</button>
 
     <script type="module">
-      import { signInWithGoogle } from "./auth.js";
+      import { supabase } from "./supabaseClient.js";
+      async function signInWithGoogle() {
+        await supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: window.location.origin,
+          },
+        });
+      }
 
       document
         .getElementById("googleLogin")
