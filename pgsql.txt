@@ -1,0 +1,55 @@
+create type public.mood_state as enum (
+    'Fulfilling',
+    'Calm',
+    'Down'
+);
+
+-- day_entries Table
+create table public.day_entries (
+  id bigserial primary key,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  day date not null,
+  mood public.mood_state not null default 'Calm',
+  reflection text,
+  updated_at timestamptz not null default now(),
+  unique (user_id, day)
+);
+
+-- set_updated_at function and trigger
+create or replace function public.set_updated_at()
+returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+
+create trigger trg_updated_at
+before update on public.day_entries
+for each row execute procedure public.set_updated_at();
+
+-- RLS Policies
+create policy "Users can read own day entries"
+on public.day_entries
+for select
+to authenticated
+using (user_id = auth.uid());
+
+create policy "Users can insert own day entries"
+on public.day_entries
+for insert
+to authenticated
+with check (user_id = auth.uid());
+
+create policy "Users can update own day entries"
+on public.day_entries
+for update
+to authenticated
+using (user_id = auth.uid())
+with check (user_id = auth.uid());
+
+create policy "Users can delete own day entries"
+on public.day_entries
+for delete
+to authenticated
+using (user_id = auth.uid());
