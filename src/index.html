@@ -15,7 +15,15 @@
         <div class="grid" id="grid"></div>
       </div>
     </div>
+    <button id="googleLogin">Sign in with Google</button>
 
+    <script type="module">
+      import { signInWithGoogle } from "./auth.js";
+
+      document
+        .getElementById("googleLogin")
+        .addEventListener("click", signInWithGoogle);
+    </script>
     <script src="script.js"></script>
   </body>
 </html>
