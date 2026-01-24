@@ -239,3 +239,8 @@ h1 {
   height: 60px;
   pointer-events: none; /* ✅ tap goes to button */
 }
+
+#googleLogin {
+  position: relative;
+  z-index: 10;
+}
