@@ -1,37 +1,44 @@
-// script.js (module)
-// Make sure index.html uses: <script type="module" src="script.js"></script>
-
 import { supabase } from "./supabaseClient.js";
 
-/* ---------------------------
-   AUTH (Google login + UI)
----------------------------- */
-const loginBtn = document.getElementById("googleLogin");
+document.addEventListener("DOMContentLoaded", () => {
+  init();
+});
 
-loginBtn.addEventListener("click", async () => {
-  await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: { redirectTo: window.location.origin },
+async function init() {
+  // ---- AUTH ----
+  const loginBtn = document.getElementById("googleLogin");
+
+  loginBtn.addEventListener("click", async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin },
+    });
   });
-});
 
-async function signOut() {
-  await supabase.auth.signOut();
-}
+  async function refreshAuthUI() {
+    const { data: { session } } = await supabase.auth.getSession();
+    loginBtn.style.display = session ? "none" : "block";
+  }
 
-async function refreshAuthUI() {
-  const { data: { session } } = await supabase.auth.getSession();
-  loginBtn.style.display = session ? "none" : "block";
-}
+  supabase.auth.onAuthStateChange(async () => {
+    await refreshAuthUI();
+    await loadEntriesFromSupabase();
+    applyMoodColorsToDots();
+    renderCard();
+  });
 
-supabase.auth.onAuthStateChange(async () => {
   await refreshAuthUI();
-  await loadEntriesFromSupabase(); // refresh local cache after login/logout
-  renderCard();                    // refresh card UI
-  applyMoodColorsToDots();         // recolor dots
-});
 
-await refreshAuthUI();
+  // ---- GRID/TITLE ----
+  setupGridAndHeader();   // creates dots
+  updateHeaderAndPastDots();
+  setInterval(updateHeaderAndPastDots, 1000);
+
+  // ---- LOAD DATA (if logged in) ----
+  await loadEntriesFromSupabase();
+  applyMoodColorsToDots();
+  renderCard();
+}
 
 /* ---------------------------
    DATE HELPERS

@@ -204,11 +204,25 @@ h1 {
 .dot.calm {
   background: rgba(255, 255, 255, 0.95);
   border-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.30);
+  box-shadow: 0 0 12px white;
 }
 
 .dot.down {
-  background: rgba(255, 70, 110, 0.95);
-  border-color: rgba(255, 70, 110, 0.95);
-  box-shadow: 0 0 12px rgba(255, 70, 110, 0.35);
+  background: red;
+  border-color: red;
+  box-shadow: 0 0 12px red;
+}
+
+#googleLogin {
+  border-radius: 30px;
+  background-color: black;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.loginWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
 }
