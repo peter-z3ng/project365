@@ -220,8 +220,8 @@ h1 {
 }
 
 .googleIconBtn {
-  width: 72px;
-  height: 72px;
+  width: 100px;
+  height: 100px;
   border-radius: 999px;
   border: 0;
   background: rgba(0,0,0,.35);
@@ -232,15 +232,5 @@ h1 {
   /* mobile tap reliability */
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-}
-
-.googleIconBtn img {
-  width: 60px;
-  height: 60px;
-  pointer-events: none; /* ✅ tap goes to button */
-}
-
-#googleLogin {
-  position: relative;
-  z-index: 10;
+  pointer-events: none;
 }
