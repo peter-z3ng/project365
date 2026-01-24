@@ -213,16 +213,29 @@ h1 {
   box-shadow: 0 0 12px red;
 }
 
-#googleLogin {
-  border-radius: 30px;
-  background-color: black;
-  width: 60px;
-  height: 60px;
-  cursor: pointer;
-}
-
 .loginWrap {
   display: flex;
   justify-content: center;
-  margin-top: 12px;
+  margin-top: 14px;
+}
+
+.googleIconBtn {
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(0,0,0,.35);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+
+  /* mobile tap reliability */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.googleIconBtn img {
+  width: 60px;
+  height: 60px;
+  pointer-events: none; /* ✅ tap goes to button */
 }
