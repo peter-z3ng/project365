@@ -80,3 +80,114 @@ h1 {
   background: var(--fg);
   box-shadow: 0 0 10px var(--glow);
 }
+
+.card {
+  width: min(520px, 100%);
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.04);
+  backdrop-filter: blur(10px);
+}
+
+.cardTop {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.cardDate {
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: 14px;
+}
+
+.navBtn {
+  height: 36px;
+  width: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(0,0,0,.18);
+  color: var(--fg);
+  font-size: 20px;
+}
+
+.moods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 8px 0 10px;
+}
+
+.mood {
+  position: relative;
+  border-radius: 12px;
+  padding: 10px 10px;
+  border: 1px solid rgba(255,255,255,.20);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.mood input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.mood span {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: .92;
+}
+
+/* Selected state outline + glow */
+.mood:has(input:checked) {
+  border-color: rgba(255,255,255,.7);
+  box-shadow: 0 0 16px rgba(255,255,255,.15);
+}
+
+/* Mood colors (edit if you want) */
+.m-ful:has(input:checked) { box-shadow: 0 0 18px rgba(0,255,255,.35); }
+.m-calm:has(input:checked){ box-shadow: 0 0 18px rgba(255,255,255,.22); }
+.m-down:has(input:checked){ box-shadow: 0 0 18px rgba(255,70,110,.28); }
+
+.m-ful { background: rgba(0,255,255,.08); }
+.m-calm{ background: rgba(255,255,255,.06); }
+.m-down{ background: rgba(255,70,110,.07); }
+
+.refTitle {
+  margin: 6px 0 6px;
+  font-size: 13px;
+  opacity: .95;
+}
+
+.reflection {
+  width: 100%;
+  resize: none;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.22);
+  color: var(--fg);
+  padding: 10px;
+  font-size: 13px;
+  outline: none;
+}
+
+.reflection::placeholder {
+  color: rgba(255,255,255,.5);
+}
+
+.hint {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: rgba(255,255,255,.6);
+  min-height: 14px;
+}

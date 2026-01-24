@@ -13,6 +13,43 @@
         <p class="sub" id="subtitle"></p>
 
         <div class="grid" id="grid"></div>
+
+        <section class="card" id="dayCard" aria-label="Day card">
+          <div class="cardTop">
+            <button class="navBtn" id="prevDay" aria-label="Previous day">
+              ‹
+            </button>
+            <div class="cardDate" id="cardDate"></div>
+            <button class="navBtn" id="nextDay" aria-label="Next day">›</button>
+          </div>
+
+          <div class="moods" role="radiogroup" aria-label="Mood">
+            <label class="mood m-ful">
+              <input type="radio" name="mood" value="Fulfilling" />
+              <span>Fulfilling</span>
+            </label>
+
+            <label class="mood m-calm">
+              <input type="radio" name="mood" value="Calm" />
+              <span>Calm</span>
+            </label>
+
+            <label class="mood m-down">
+              <input type="radio" name="mood" value="Down" />
+              <span>Down</span>
+            </label>
+          </div>
+
+          <h2 class="refTitle">Reflection</h2>
+          <textarea
+            id="reflection"
+            class="reflection"
+            rows="3"
+            placeholder="Small text about today…"
+          ></textarea>
+
+          <p class="hint" id="saveHint"></p>
+        </section>
       </div>
     </div>
     <button id="googleLogin">Sign in with Google</button>
