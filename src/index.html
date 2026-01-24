@@ -6,6 +6,7 @@
     <title>project365</title>
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
     <div class="wrap">
       <div class="container">
@@ -14,16 +15,15 @@
 
         <div class="grid" id="grid"></div>
 
+        <!-- Day Card -->
         <section class="card" id="dayCard" aria-label="Day card">
           <div class="cardTop">
-            <button class="navBtn" id="prevDay" aria-label="Previous day">
-              ‹
-            </button>
+            <button class="navBtn" id="prevDay">‹</button>
             <div class="cardDate" id="cardDate"></div>
-            <button class="navBtn" id="nextDay" aria-label="Next day">›</button>
+            <button class="navBtn" id="nextDay">›</button>
           </div>
 
-          <div class="moods" role="radiogroup" aria-label="Mood">
+          <div class="moods" role="radiogroup">
             <label class="mood m-ful">
               <input type="radio" name="mood" value="Fulfilling" />
               <span>Fulfilling</span>
@@ -52,23 +52,11 @@
         </section>
       </div>
     </div>
+
+    <!-- Login button -->
     <button id="googleLogin">Sign in with Google</button>
 
-    <script type="module">
-      import { supabase } from "./supabaseClient.js";
-      async function signInWithGoogle() {
-        await supabase.auth.signInWithOAuth({
-          provider: "google",
-          options: {
-            redirectTo: window.location.origin,
-          },
-        });
-      }
-
-      document
-        .getElementById("googleLogin")
-        .addEventListener("click", signInWithGoogle);
-    </script>
+    <!-- ONE module script only -->
     <script type="module" src="script.js"></script>
   </body>
 </html>

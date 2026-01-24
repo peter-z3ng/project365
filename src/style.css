@@ -26,6 +26,8 @@ body {
     Arial;
   display: flex;
   justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .wrap {
@@ -83,7 +85,7 @@ h1 {
 
 .card {
   width: min(520px, 100%);
-  margin-top: 12px;
+  margin-top: 10px;
   padding: 12px;
   border-radius: 16px;
   border: 1px solid rgba(255,255,255,.18);
@@ -190,4 +192,23 @@ h1 {
   font-size: 11px;
   color: rgba(255,255,255,.6);
   min-height: 14px;
+}
+
+/* Mood-colored dots (works with script.js) */
+.dot.ful {
+  background: rgba(0, 255, 255, 0.95);
+  border-color: rgba(0, 255, 255, 0.95);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.45);
+}
+
+.dot.calm {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.30);
+}
+
+.dot.down {
+  background: rgba(255, 70, 110, 0.95);
+  border-color: rgba(255, 70, 110, 0.95);
+  box-shadow: 0 0 12px rgba(255, 70, 110, 0.35);
 }
