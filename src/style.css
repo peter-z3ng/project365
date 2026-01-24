@@ -243,4 +243,6 @@ h1 {
 #googleLogin {
   position: relative;
   z-index: 10;
+  pointer-events: auto;
 }
+
