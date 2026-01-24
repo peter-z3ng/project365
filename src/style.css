@@ -246,12 +246,3 @@ h1 {
   z-index: 10;
 }
 
-.googleBtn:hover {
-  filter: brightness(0.95);
-}
-
-.googleIcon {
-  width: 18px;
-  height: 18px;
-}
-
