@@ -1,3 +1,31 @@
+import { supabase } from "./supabaseClient.js";
+
+const loginBtn = document.getElementById("googleLogin");
+
+loginBtn.addEventListener("click", async () => {
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: window.location.origin }
+  });
+});
+
+// Optional logout button (you can add in HTML)
+async function signOut() {
+  await supabase.auth.signOut();
+}
+
+// Show/hide login button based on session
+async function refreshAuthUI() {
+  const { data: { session } } = await supabase.auth.getSession();
+  loginBtn.style.display = session ? "none" : "block";
+}
+
+supabase.auth.onAuthStateChange(() => {
+  refreshAuthUI();
+});
+
+refreshAuthUI();
+
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const grid = document.getElementById("grid");
 const title = document.getElementById("title");
@@ -44,3 +72,38 @@ function update() {
 
 update();
 setInterval(update, 1000);
+
+function toISODate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+async function loadEntries2026() {
+  const { data, error } = await supabase
+    .from("day_entries")
+    .select("day,mood,reflection")
+    .gte("day", "2026-01-01")
+    .lte("day", "2026-12-31");
+
+  if (error) throw error;
+
+  const map = {};
+  for (const r of data) map[r.day] = r; // key: "YYYY-MM-DD"
+  return map;
+}
+
+async function saveEntry(dayISO, mood, reflection) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Not signed in");
+
+  const { error } = await supabase
+    .from("day_entries")
+    .upsert(
+      { user_id: user.id, day: dayISO, mood, reflection },
+      { onConflict: "user_id,day" }
+    );
+
+  if (error) throw error;
+}
