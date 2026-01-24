@@ -16,7 +16,9 @@ async function init() {
   });
 
   async function refreshAuthUI() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     loginBtn.style.display = session ? "none" : "block";
   }
 
@@ -30,7 +32,7 @@ async function init() {
   await refreshAuthUI();
 
   // ---- GRID/TITLE ----
-  setupGridAndHeader();   // creates dots
+  setupGridAndHeader(); // creates dots
   updateHeaderAndPastDots();
   setInterval(updateHeaderAndPastDots, 1000);
 
@@ -124,7 +126,9 @@ function updateHeaderAndPastDots() {
 const entries = {}; // key: "YYYY-MM-DD" -> { mood, reflection }
 
 async function loadEntriesFromSupabase() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     // logged out: clear local entries
     for (const k of Object.keys(entries)) delete entries[k];
@@ -153,14 +157,16 @@ async function loadEntriesFromSupabase() {
 }
 
 async function saveEntryToSupabase(dayISO, mood, reflection) {
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { ok: false, message: "Sign in to sync" };
 
   const { error } = await supabase
     .from("day_entries")
     .upsert(
       { user_id: user.id, day: dayISO, mood, reflection },
-      { onConflict: "user_id,day" }
+      { onConflict: "user_id,day" },
     );
 
   if (error) {
@@ -279,7 +285,7 @@ if (dayCard) {
       startY = t.clientY;
       swiping = true;
     },
-    { passive: true }
+    { passive: true },
   );
 
   dayCard.addEventListener(
@@ -292,7 +298,7 @@ if (dayCard) {
       // if mostly vertical movement, cancel swipe (so scrolling works)
       if (Math.abs(dy) > Math.abs(dx)) swiping = false;
     },
-    { passive: true }
+    { passive: true },
   );
 
   dayCard.addEventListener(
@@ -302,12 +308,13 @@ if (dayCard) {
       const t = e.changedTouches[0];
       const dx = t.clientX - startX;
 
-      if (dx > 40) shiftDay(-1); // swipe right: previous day
+      if (dx > 40)
+        shiftDay(-1); // swipe right: previous day
       else if (dx < -40) shiftDay(1); // swipe left: next day
 
       swiping = false;
     },
-    { passive: true }
+    { passive: true },
   );
 }
 
@@ -342,6 +349,45 @@ function applyMoodColorsToDots() {
     if (cls) dots[idx].classList.add(cls);
   }
 }
+const hhEl = document.getElementById("hh");
+const mmEl = document.getElementById("mm");
+const ssEl = document.getElementById("ss");
+const dayBar = document.getElementById("dayBar");
+const timeLeftEl = document.getElementById("timeLeft");
+
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
+
+function updateClockAndDayProgress() {
+  const now = new Date();
+
+  // Clock HH:MM:SS
+  hhEl.textContent = pad2(now.getHours());
+  mmEl.textContent = pad2(now.getMinutes());
+  ssEl.textContent = pad2(now.getSeconds());
+
+  // Start/end of today
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+
+  const elapsed = now - start;
+  const total = end - start; // 24h in ms
+  const progress = Math.min(100, Math.max(0, (elapsed / total) * 100));
+  dayBar.style.width = `${progress}%`;
+
+  // Time left today
+  const remaining = end - now;
+  const remH = Math.floor(remaining / (60 * 60 * 1000));
+  const remM = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+  const remS = Math.floor((remaining % (60 * 1000)) / 1000);
+
+  timeLeftEl.textContent = `${pad2(remH)}h ${pad2(remM)}m ${pad2(remS)}s left today`;
+}
+
+// call once + update every second
+updateClockAndDayProgress();
+setInterval(updateClockAndDayProgress, 1000);
 
 /* ---------------------------
    INIT

@@ -13,6 +13,22 @@
         <h1 id="title"></h1>
         <p class="sub" id="subtitle"></p>
 
+        <section class="clockCard" id="clockCard" aria-label="Clock">
+          <div class="clockRow">
+            <span class="clockPart" id="hh">00</span>
+            <span class="clockSep">:</span>
+            <span class="clockPart" id="mm">00</span>
+            <span class="clockSep">:</span>
+            <span class="clockPart" id="ss">00</span>
+          </div>
+
+          <div class="barWrap" aria-label="Day progress">
+            <div class="barFill" id="dayBar"></div>
+          </div>
+
+          <div class="timeLeft" id="timeLeft">00h 00m 00s left today</div>
+        </section>
+
         <div class="grid" id="grid"></div>
 
         <!-- Day Card -->
