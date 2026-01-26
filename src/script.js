@@ -360,45 +360,32 @@ function pad2(n) {
 }
 
 function updateClockAndDayProgress() {
+  if (!hhEl || !mmEl || !ssEl || !dayBar || !timeLeftEl) return;
+
   const now = new Date();
 
-  // Clock HH:MM:SS
   hhEl.textContent = pad2(now.getHours());
   mmEl.textContent = pad2(now.getMinutes());
   ssEl.textContent = pad2(now.getSeconds());
 
-  // Start/end of today
   const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
-  const elapsed = now - start;
-  const total = end - start; // 24h in ms
-  const progress = Math.min(100, Math.max(0, (elapsed / total) * 100));
-  dayBar.style.width = `${progress}%`;
+  const progress = ((now - start) / (end - start)) * 100;
+  dayBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
 
-  // Time left today
   const remaining = end - now;
-  const remH = Math.floor(remaining / (60 * 60 * 1000));
-  const remM = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
-  const remS = Math.floor((remaining % (60 * 1000)) / 1000);
+  const h = Math.floor(remaining / 3600000);
+  const m = Math.floor((remaining % 3600000) / 60000);
+  const s = Math.floor((remaining % 60000) / 1000);
 
-  timeLeftEl.textContent = `${pad2(remH)}h ${pad2(remM)}m ${pad2(remS)}s left today`;
+  timeLeftEl.textContent =
+    `${pad2(h)}h ${pad2(m)}m ${pad2(s)}s`;
 }
 
 // call once + update every second
 updateClockAndDayProgress();
 setInterval(updateClockAndDayProgress, 1000);
-
-/* ---------------------------
-   INIT
----------------------------- */
-updateHeaderAndPastDots();
-setInterval(updateHeaderAndPastDots, 1000);
-
-// Load data once if already logged in
-await loadEntriesFromSupabase();
-applyMoodColorsToDots();
-renderCard();
 
 /* ---------------------------
    OPTIONAL: expose signOut if you add a logout button

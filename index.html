@@ -4,80 +4,108 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>project365</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./src/style.css" />
   </head>
 
-  <body>
-    <div class="wrap">
-      <div class="container">
-        <h1 id="title"></h1>
-        <p class="sub" id="subtitle"></p>
+  <body class="m-0 min-h-screen bg-[#05060a] text-white font-sans flex items-center justify-center overflow-y-auto">
+    <main class="w-full max-w-[1000px] p-3 flex flex-col items-center justify-center">
+      <div class="w-full flex flex-col items-center">
 
-        <section class="clockCard" id="clockCard" aria-label="Clock">
-          <div class="clockRow">
-            <span class="clockPart" id="hh">00</span>
-            <span class="clockSep">:</span>
-            <span class="clockPart" id="mm">00</span>
-            <span class="clockSep">:</span>
-            <span class="clockPart" id="ss">00</span>
+        <!-- Title -->
+        <h1
+          id="title"
+          class="text-center text-[clamp(14px,4vw,20px)] mb-1 [text-shadow:0_0_18px_rgba(255,255,255,.45)]"
+        ></h1>
+
+        <p
+          id="subtitle"
+          class="text-center text-[clamp(11px,3vw,14px)] text-white/70 mb-2"
+        ></p>
+
+        <!-- Clock Card -->
+        <section
+          id="clockCard"
+          aria-label="Clock"
+          class="w-full max-w-[520px] mb-2 p-3 rounded-2xl border border-white/20 bg-white/[0.04] backdrop-blur text-center"
+        >
+          <div class="flex items-baseline justify-center gap-1.5 mb-2">
+            <span id="hh" class="text-[clamp(24px,7vw,40px)] font-bold tracking-wide">00</span>
+            <span class="text-[clamp(22px,6vw,36px)] opacity-70">:</span>
+            <span id="mm" class="text-[clamp(24px,7vw,40px)] font-bold tracking-wide">00</span>
+            <span class="text-[clamp(22px,6vw,36px)] opacity-70">:</span>
+            <span id="ss" class="text-[clamp(24px,7vw,40px)] font-bold tracking-wide">00</span>
           </div>
 
-          <div class="barWrap" aria-label="Day progress">
-            <div class="barFill" id="dayBar"></div>
+          <div class="h-2.5 w-full rounded-full border border-white/20 bg-black/25 overflow-hidden" aria-label="Day progress">
+            <div id="dayBar" class="h-full w-0 rounded-full bg-white/90 shadow-[0_0_12px_rgba(255,255,255,.25)]"></div>
           </div>
 
-          <div class="timeLeft" id="timeLeft">00h 00m 00s left today</div>
+          <div id="timeLeft" class="mt-2 text-xs text-white/70">
+            00h 00m 00s left today
+          </div>
         </section>
 
-        <div class="grid" id="grid"></div>
+        <!-- Grid (keep id=grid; your JS injects dots) -->
+        <div id="grid" class="grid365"></div>
 
         <!-- Day Card -->
-        <section class="card" id="dayCard" aria-label="Day card">
-          <div class="cardTop">
-            <button class="navBtn" id="prevDay">‹</button>
-            <div class="cardDate" id="cardDate"></div>
-            <button class="navBtn" id="nextDay">›</button>
+        <section
+          id="dayCard"
+          aria-label="Day card"
+          class="w-full max-w-[520px] mt-2 p-3 rounded-2xl border border-white/20 bg-white/[0.04] backdrop-blur"
+        >
+          <div class="grid grid-cols-[44px_1fr_44px] items-center gap-2 mb-2">
+            <button id="prevDay" class="h-9 w-9 rounded-xl border border-white/20 bg-black/20 text-xl">‹</button>
+            <div id="cardDate" class="text-center font-semibold text-sm tracking-wide"></div>
+            <button id="nextDay" class="h-9 w-9 rounded-xl border border-white/20 bg-black/20 text-xl">›</button>
           </div>
 
-          <div class="moods" role="radiogroup">
-            <label class="mood m-ful">
-              <input type="radio" name="mood" value="Fulfilling" />
-              <span>Fulfilling</span>
+          <!-- Mood radios: keep your existing structure; your CSS handles :has glow -->
+          <div class="grid grid-cols-3 gap-2 my-2" role="radiogroup">
+            <label class="mood m-ful rounded-xl border border-white/20 bg-cyan-400/10 px-2 py-2 flex items-center justify-center">
+              <input type="radio" name="mood" value="Fulfilling" class="sr-only" />
+              <span class="text-xs font-semibold opacity-90">Fulfilling</span>
             </label>
 
-            <label class="mood m-calm">
-              <input type="radio" name="mood" value="Calm" />
-              <span>Calm</span>
+            <label class="mood m-calm rounded-xl border border-white/20 bg-white/10 px-2 py-2 flex items-center justify-center">
+              <input type="radio" name="mood" value="Calm" class="sr-only" />
+              <span class="text-xs font-semibold opacity-90">Calm</span>
             </label>
 
-            <label class="mood m-down">
-              <input type="radio" name="mood" value="Down" />
-              <span>Down</span>
+            <label class="mood m-down rounded-xl border border-white/20 bg-rose-400/10 px-2 py-2 flex items-center justify-center">
+              <input type="radio" name="mood" value="Down" class="sr-only" />
+              <span class="text-xs font-semibold opacity-90">Down</span>
             </label>
           </div>
 
-          <h2 class="refTitle">Reflection</h2>
+          <h2 class="mt-1 mb-1 text-[13px] opacity-95">Reflection</h2>
+
           <textarea
             id="reflection"
-            class="reflection"
             rows="3"
             placeholder="Small text here ..."
+            class="w-full rounded-xl border border-white/15 bg-black/20 p-2.5 text-[13px] outline-none resize-none placeholder:text-white/50"
           ></textarea>
 
-          <p class="hint" id="saveHint"></p>
+          <p id="saveHint" class="mt-2 text-[11px] text-white/60 min-h-[14px]"></p>
         </section>
-      </div>
-      <div class="loginWrap">
-        <img
-          id="googleLogin"
-          src="./assets/google-logo.png"
-          alt="Sign in with Google"
-          class="googleLogoOnly"
-        />
-      </div>
-    </div>
 
-    <!-- ONE module script only -->
+        <!-- Login logo (image-only, centered) -->
+        <div class="flex justify-center mt-3">
+          <button
+            id="googleLogin"
+            type="button"
+            aria-label="Sign in with Google"
+            class="w-14 h-14 rounded-full bg-black/35 grid place-items-center touch-manipulation [-webkit-tap-highlight-color:transparent]"
+          >
+            <img src="./assets/google-logo.png" alt="" class="w-6 h-6 pointer-events-none" />
+          </button>
+        </div>
+
+      </div>
+    </main>
+
     <script type="module" src="./src/script.js"></script>
   </body>
 </html>
